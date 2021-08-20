@@ -15,13 +15,20 @@ def formulaIndexArrayToString(formulaIndexArray):
     return res
 
 
-def mutate(innerBiome, specieI, formulaIndexArray):
+def mutate(innerBiome, specieI, formulaIndexArray, originalSpicie):
     formulaStr = formulaIndexArrayToString(formulaIndexArray)
-    print("dwadwa", formulaStr)
 
+    for letter in letters:
+        newSpecie = originalSpicie.replace(letter, formulaStr)
+        innerBiome[specieI].append(newSpecie)
+
+        if(newSpecie == end):
+            print(originalSpicie, "+", formulaStr, "=>", newSpecie)
 
 
 def createMutants(innerBiome, specieI):
+    originalSpecie = innerBiome[specieI]
+    innerBiome[specieI] = []
     intFormula = [-1] * len(letters)
     directionArr = [1] * len(letters)
     run = True
@@ -37,11 +44,9 @@ def createMutants(innerBiome, specieI):
 
                 directionArr[i] *= -1
                 intFormula[i] += directionArr[i]
-
-                print(intFormula[i])
                 continue
 
-            mutate(innerBiome, specieI, intFormula)
+            mutate(innerBiome, specieI, intFormula, originalSpecie)
 
             break
                
@@ -53,11 +58,11 @@ def evolve(innerBiome):
         if isinstance(specieOrSpecies, list):
             evolve(specieOrSpecies)
         else:
-            innerBiome[i] = createMutants(innerBiome, i)
+            createMutants(innerBiome, i)
 
 def evolution():
-    #while True:
-    evolve(biome)
+    while True:
+        evolve(biome)
 
 
 def getInput():
