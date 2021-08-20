@@ -1,15 +1,8 @@
+import time
+
 end = ""
 biome = []
 letters = ["A", "B", "C"]
-
-def clearItemsBelow(index, array):
-    print("-------", array, index)
-    for i in range(index):
-        array[i] = 0
-
-    print("=========", array)
-    return array
-
 
 def formulaIndexArrayToString(formulaIndexArray):
     res = ""
@@ -24,17 +17,34 @@ def formulaIndexArrayToString(formulaIndexArray):
 
 def mutate(innerBiome, specieI, formulaIndexArray):
     formulaStr = formulaIndexArrayToString(formulaIndexArray)
-    print("hi", formulaStr)
+    print("dwadwa", formulaStr)
 
 
-def createMutants(innerBiome, specieI, currentMutationFormulaIndexArray):
-    while True:
-        for i, mutationFormulaPartIndex in enumerate(currentMutationFormulaIndexArray):
-            if mutationFormulaPartIndex < len(letters) - 1:
-                currentMutationFormulaIndexArray[i] += 1
-                mutate(innerBiome, specieI, currentMutationFormulaIndexArray)
-                currentMutationFormulaIndexArray = clearItemsBelow(i, currentMutationFormulaIndexArray)
-                break
+
+def createMutants(innerBiome, specieI):
+    intFormula = [-1] * len(letters)
+    directionArr = [1] * len(letters)
+    run = True
+
+    while run:
+        for i in range(len(intFormula)):
+            time.sleep(0.1)
+            intFormula[i] += directionArr[i]
+
+            if intFormula[i] == -1 or intFormula[i] == len(letters):
+                if i == len(intFormula) -1:
+                    return
+
+                directionArr[i] *= -1
+                intFormula[i] += directionArr[i]
+
+                print(intFormula[i])
+                continue
+
+            mutate(innerBiome, specieI, intFormula)
+
+            break
+               
 
     
 
@@ -43,11 +53,11 @@ def evolve(innerBiome):
         if isinstance(specieOrSpecies, list):
             evolve(specieOrSpecies)
         else:
-            innerBiome[i] = createMutants(innerBiome, i, [-1] * len(letters))
+            innerBiome[i] = createMutants(innerBiome, i)
 
 def evolution():
-    while True:
-        evolve(biome)
+    #while True:
+    evolve(biome)
 
 
 def getInput():
