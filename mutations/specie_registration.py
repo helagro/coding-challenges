@@ -8,20 +8,17 @@ def isBigger(DNA, i):
     opponent = registeredSpecies[i]
 
     if len(opponent) != len(DNA): return len(opponent) < len(DNA)
-    print(".1")
     for i, letter in enumerate(DNA):
         opponentsLetter = opponent[i]
         if(letter == opponentsLetter):
-            print(".2")
             continue
         else: return letter > opponentsLetter
 
-    print(".2")
-    return None
+    return False #Is Equal
 
 
 def standardSearch(DNA):
-    print("std search")
+    #print("std search")
     for i in range(len(registeredSpecies)):
         if not isBigger(DNA, i):
             return i
@@ -34,6 +31,8 @@ def findRightPosition(DNA, i):
     if len(registeredSpecies) == 0 or isBigger(DNA, len(registeredSpecies)-1): return -1
     if not isBigger(DNA, 0): return 0
     if len(registeredSpecies) < 3 or True: return standardSearch(DNA)
+
+
 
     '''
     if(i > len(registeredSpecies)-1):
@@ -67,17 +66,28 @@ def findRightPosition(DNA, i):
     return findRightPosition(DNA, newI, biggest, smallest, i) '''
 
 
-def registerSpecie(specie):
+def hasSpecieOrRegister(specie):
     i = findRightPosition(specie.DNA, round(len(registeredSpecies) / 2))
+
+    if(i != -1 and specie.DNA == registeredSpecies[i]):
+        #print("Already has specie")
+        return True
+
     if(i == -1): registeredSpecies.append(specie.DNA)
     else: registeredSpecies.insert(i, specie.DNA)
-    print(i)
+
+    return False
 
 
-sys.setrecursionlimit(150)
 
-while True:
-    specie = mutation_path.MutationPath(DNA=input("DNA: "), path=[])
-    registerSpecie(specie)
+def test():
+    return
+    sys.setrecursionlimit(150)
 
-    print(registeredSpecies)
+    while True:
+        specie = mutation_path.MutationPath(DNA=input("DNA: "), path=[])
+        hasSpecieOrRegister(specie)
+
+        print(registeredSpecies)
+
+test()
