@@ -11,7 +11,7 @@ class Evolution:
         self.biome = biome
         self.endDNA = endDNA
 
-    letters = ["a", "b", "c"]
+    letters = "abc"
     deathTol = 0
     populationsize = 0
     successfullSpecies = []
@@ -42,7 +42,7 @@ class Evolution:
                 self.childAcounting(child, parentsHabitat, habitatI)
             else:
                 self.deathTol += 1
-                if(self.deathTol % 100000 == 0):
+                if(self.deathTol % 10000000 == 0):
                     log.mainStats("at mutate:", self.successfullSpecies, self.populationsize, self.deathTol)
 
     def killParent(self, parentsHabitat, habitatI):
