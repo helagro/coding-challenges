@@ -72,13 +72,11 @@ class Evolution:
 
                 formulaStr = translators.formulaIndexArrayToString(intFormula, self.letters)
                 self.mutateWithEveryLetterAndInc(parentsHabitat, habitatI, formulaStr, parentSpecie)
-
                 break
                 
     def evolve(self, parentsHabitat):
         for i, childOrHabitat in enumerate(parentsHabitat):
             if isinstance(childOrHabitat, list):
-                #threading.Thread(target=self.evolve, args=(childOrHabitat,)).start()
                 self.evolve(childOrHabitat)
             else:
                 self.mutateWithEveryFormula(parentsHabitat, i)
