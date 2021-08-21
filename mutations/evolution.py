@@ -3,6 +3,7 @@ from mutation_path import MutationPath
 import fittness_test
 import specie_registration
 import log
+import threading
 
 class Evolution:
     def __init__(self, startDNA, biome, endDNA) -> None:
@@ -41,7 +42,7 @@ class Evolution:
                 self.childAcounting(child, parentsHabitat, habitatI)
             else:
                 self.deathTol += 1
-                if(self.deathTol % 10000 == 0):
+                if(self.deathTol % 100000 == 0):
                     log.mainStats("at mutate:", self.successfullSpecies, self.populationsize, self.deathTol)
 
     def killParent(self, parentsHabitat, habitatI):
@@ -77,6 +78,7 @@ class Evolution:
     def evolve(self, parentsHabitat):
         for i, childOrHabitat in enumerate(parentsHabitat):
             if isinstance(childOrHabitat, list):
+                #threading.Thread(target=self.evolve, args=(childOrHabitat,)).start()
                 self.evolve(childOrHabitat)
             else:
                 self.mutateWithEveryFormula(parentsHabitat, i)

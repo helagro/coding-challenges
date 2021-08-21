@@ -4,7 +4,7 @@ import sys
 
 registeredSpecies = []
 
-def isBigger(DNA, i):
+def guessIsBigger(DNA, i):
     opponent = registeredSpecies[i]
 
     if len(opponent) != len(DNA): return len(opponent) < len(DNA)
@@ -17,22 +17,32 @@ def isBigger(DNA, i):
     return False #Is Equal
 
 
+def binarySearch(DNA):
+    smallestAbove = len(registeredSpecies) -1
+    biggestUnderneath = 0
+    while True:
+        guessI = round((smallestAbove - biggestUnderneath) / 2 + biggestUnderneath)
+        guessIsBiggerAns = guessIsBigger(DNA,guessI)
+        print("dwa", guessI)
+
+        if guessIsBiggerAns: biggestUnderneath = guessI
+        else: smallestAbove: smallestAbove = guessI
+        if(smallestAbove - biggestUnderneath <= 1): return smallestAbove
+
+
 def standardSearch(DNA):
-    #print("std search")
+    print("std search")
     for i in range(len(registeredSpecies)):
-        if not isBigger(DNA, i):
+        if not guessIsBigger(DNA, i):
             return i
 
 
-#def binarySearch(DNA, i, biggest = 0, smallest):
-
-
 def findRightPosition(DNA, i):
-    if len(registeredSpecies) == 0 or isBigger(DNA, len(registeredSpecies)-1): return -1
-    if not isBigger(DNA, 0): return 0
-    if len(registeredSpecies) < 3 or True: return standardSearch(DNA)
+    if len(registeredSpecies) == 0 or guessIsBigger(DNA, len(registeredSpecies)-1): return -1
+    #if not guessIsBigger(DNA, 0): return 0
+    #if len(registeredSpecies) < 3: return standardSearch(DNA)
 
-
+    return binarySearch(DNA)
 
     '''
     if(i > len(registeredSpecies)-1):
@@ -42,14 +52,14 @@ def findRightPosition(DNA, i):
     if(biggest -2 == smallest):
         return i
 
-    isBiggerAns = isBigger(DNA, i)
+    guessIsBiggerAns = guessIsBigger(DNA, i)
     newI = 0
 
-    print("isBigger:", isBiggerAns)
+    print("guessIsBigger:", guessIsBiggerAns)
 
-    if(isBiggerAns == None):
+    if(guessIsBiggerAns == None):
         return i
-    elif(isBiggerAns):
+    elif(guessIsBiggerAns):
         biggestRefPoint = biggest if biggest > i else len(registeredSpecies) - 1
         newI = math.ceil((biggestRefPoint - i) / 2 + i)
     else:
@@ -57,7 +67,7 @@ def findRightPosition(DNA, i):
         newI = math.floor((i - smallestRefPoint) / 2 + smallestRefPoint)
 
     if(newI == i):
-        newI = newI+1 if isBiggerAns else newI -1
+        newI = newI+1 if guessIsBiggerAns else newI -1
     if(biggest < i):
         biggest = i
     elif(smallest > i):
@@ -81,7 +91,7 @@ def hasSpecieOrRegister(specie):
 
 
 def test():
-    return
+    
     sys.setrecursionlimit(150)
 
     while True:
